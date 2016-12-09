@@ -37,7 +37,7 @@
         </li>
       </ul>
     </div>
-    <shopcart v-bind:delivery-price="seller.deliveryPrice" v-bind:min-price="seller.minPrice"></shopcart>
+    <shopcart v-bind:select-foods="selectFoods" v-bind:delivery-price="seller.deliveryPrice" v-bind:min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -71,6 +71,17 @@
           }
         }
         return 0;
+      },
+      selectFoods() {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food);
+            }
+          });
+        });
+        return foods;
       }
     },
     created() {
