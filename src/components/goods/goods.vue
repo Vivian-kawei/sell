@@ -37,7 +37,7 @@
         </li>
       </ul>
     </div>
-    <shopcart v-bind:select-foods="selectFoods" v-bind:delivery-price="seller.deliveryPrice" v-bind:min-price="seller.minPrice"></shopcart>
+    <shopcart v-ref:shopcart v-bind:select-foods="selectFoods" v-bind:delivery-price="seller.deliveryPrice" v-bind:min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -100,6 +100,12 @@
       });
     },
     methods: {
+      // 体验优化，异步执行小球下落动画
+      _drop(target) {
+        this.$nextTick(() => {
+          this.$refs.shopcart.drop(target);
+        });
+      },
       selectMenu(index, event) {
         let foodList = this.$els.foodsWrapper.getElementsByClassName('food-list-hook');
         let el = foodList[index];
@@ -133,6 +139,11 @@
     components: {
       shopcart,
       cartcontrol
+    },
+    events: {
+      'cart.add'(target) {
+        this._drop(target);
+      }
     }
   };
 </script>
